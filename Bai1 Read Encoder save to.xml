@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PoBlocks>
+    <Project>
+        <Auto_reload_project>false</Auto_reload_project>
+        <Author></Author>
+        <Target_device>1</Target_device>
+        <Disable_division_by_zero_exception>false</Disable_division_by_zero_exception>
+        <Date></Date>
+        <Reset_core_on_startup>true</Reset_core_on_startup>
+        <Cycle_time>10</Cycle_time>
+        <Project_name></Project_name>
+        <Auto_start>false</Auto_start>
+        <BlocksCount>2</BlocksCount>
+        <LinksCount>0</LinksCount>
+    </Project>
+    <Blocks>
+        <block ID="0" type="1100" position="430/270">
+            <Name>Custom PoIL</Name>
+            <hideInputs>0</hideInputs>
+            <hideOutputs>1</hideOutputs>
+            <hideMemory_bits>0</hideMemory_bits>
+            <hideMemory_int8>0</hideMemory_int8>
+            <hideMemory_int16>0</hideMemory_int16>
+            <hideMemory_int32>0</hideMemory_int32>
+            <hideVariables>Encoder1 : OUTPUT(1,int32)</hideVariables>
+            <hideCode># Add two inputs together
+LOAD D512
+STORE DhA08</hideCode>
+        </block>
+        <block ID="1" type="1100" position="550/270">
+            <Name>Custom PoIL</Name>
+            <hideInputs>0</hideInputs>
+            <hideOutputs>1</hideOutputs>
+            <hideMemory_bits>0</hideMemory_bits>
+            <hideMemory_int8>0</hideMemory_int8>
+            <hideMemory_int16>0</hideMemory_int16>
+            <hideMemory_int32>0</hideMemory_int32>
+            <hideVariables>Encoder1 : OUTPUT(1,int32)</hideVariables>
+            <hideCode># Add two inputs together
+LOAD DhA00
+STORE Encoder1</hideCode>
+        </block>
+    </Blocks>
+    <Links/>
+    <Constants/>
+    <Shared/>
+</PoBlocks>

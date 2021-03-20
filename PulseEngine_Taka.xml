@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PoBlocks>
+    <Project>
+        <Target_device>1</Target_device>
+        <Reset_core_on_startup>true</Reset_core_on_startup>
+        <Author></Author>
+        <Disable_division_by_zero_exception>false</Disable_division_by_zero_exception>
+        <Project_name></Project_name>
+        <Auto_start>false</Auto_start>
+        <Date></Date>
+        <Auto_reload_project>false</Auto_reload_project>
+        <Cycle_time>10</Cycle_time>
+        <BlocksCount>19</BlocksCount>
+        <LinksCount>22</LinksCount>
+    </Project>
+    <Blocks>
+        <block ID="0" type="1100" position="330/200">
+            <Name>Custom PoIL</Name>
+            <hideInputs>1</hideInputs>
+            <hideOutputs>0</hideOutputs>
+            <hideMemory_bits>1</hideMemory_bits>
+            <hideMemory_int8>0</hideMemory_int8>
+            <hideMemory_int16>0</hideMemory_int16>
+            <hideMemory_int32>0</hideMemory_int32>
+            <hideVariables>start : INPUT(1,bit)
+
+tmpStart : bit</hideVariables>
+            <hideCode># Check clock
+LOAD start
+STORE S
+
+AND !tmpStart
+POP tmpStart
+
+CMPEQ DL[1]
+JMPF cancelStart
+
+# Configure axes 1, 2 and 3 in position mode
+LOAD DL[12]
+STORE Bh0990
+STORE Bh0991
+STORE Bh0992
+
+# Switch to running state
+LOAD DL[3]
+STORE Bh0980
+
+
+# Move to 0
+
+# Copy the value from the input
+# to the reference speed register
+LOAD DL[0]
+STORE Dh920
+
+cancelStart:</hideCode>
+        </block>
+        <block ID="1" type="602" position="90/390">
+            <Name>Move CW</Name>
+        </block>
+        <block ID="2" type="602" position="400/390">
+            <Name>Wait</Name>
+        </block>
+        <block ID="3" type="501" position="250/380">
+            <Name>Falling edge</Name>
+        </block>
+        <block ID="4" type="201" position="-130/470">
+            <Name>AND</Name>
+            <Show_negated_output>false</Show_negated_output>
+            <Inputs>2</Inputs>
+        </block>
+        <block ID="5" type="202" position="-20/390">
+            <Name>OR</Name>
+            <Show_negated_output>false</Show_negated_output>
+            <Inputs>2</Inputs>
+        </block>
+        <block ID="6" type="501" position="520/380">
+            <Name>Falling edge</Name>
+        </block>
+        <block ID="7" type="580" position="110/600">
+            <Name>Up counter</Name>
+            <Default_value>0</Default_value>
+            <Retain_on_reset>false</Retain_on_reset>
+            <Initial_value>0</Initial_value>
+        </block>
+        <block ID="8" type="200" position="-250/460">
+            <Name>NOT</Name>
+        </block>
+        <block ID="9" type="602" position="430/630">
+            <Name>Wait before return</Name>
+        </block>
+        <block ID="10" type="1100" position="340/480">
+            <Name>PE CW</Name>
+            <hideInputs>4</hideInputs>
+            <hideOutputs>1</hideOutputs>
+            <hideMemory_bits>1</hideMemory_bits>
+            <hideMemory_int8>0</hideMemory_int8>
+            <hideMemory_int16>0</hideMemory_int16>
+            <hideMemory_int32>0</hideMemory_int32>
+            <hideVariables>clk : INPUT(1,bit)
+maxVel : INPUT(2,int32)
+maxAcc : INPUT(3,int32)
+refPosition : INPUT(4,int32)
+
+position : OUTPUT(1,int32)
+
+tmp : bit</hideVariables>
+            <hideCode>LOAD clk
+STORE S
+AND !tmp
+POP tmp
+CMPEQ DL[1]
+
+JMPF skipAction1
+
+# Configure maximum speed...
+PUSH DL[0]
+PUSH DL[0]
+LOAD maxVel
+STORE S
+CALL WL[hFF17]
+
+# Set maximum acceleration
+PUSH DL[0]
+PUSH DL[1]
+LOAD maxAcc
+STORE S
+CALL WL[hFF17]
+
+# Set maximum deceleration
+PUSH DL[0]
+PUSH DL[2]
+LOAD maxAcc
+STORE S
+CALL WL[hFF17]
+
+# Set reference position
+LOAD refPosition
+STORE Dh920
+
+skipAction1:
+
+LOAD Dh900
+STORE position</hideCode>
+        </block>
+        <block ID="11" type="107" position="210/450">
+            <Name>1 T delay</Name>
+            <Default_value>0</Default_value>
+        </block>
+        <block ID="12" type="302" position="230/520">
+            <Name>Multiply</Name>
+            <Inputs>2</Inputs>
+        </block>
+        <block ID="13" type="1100" position="670/650">
+            <Name>PW CCW</Name>
+            <hideInputs>4</hideInputs>
+            <hideOutputs>2</hideOutputs>
+            <hideMemory_bits>1</hideMemory_bits>
+            <hideMemory_int8>0</hideMemory_int8>
+            <hideMemory_int16>0</hideMemory_int16>
+            <hideMemory_int32>0</hideMemory_int32>
+            <hideVariables>clk : INPUT(1,bit)
+maxVel : INPUT(2,int32)
+maxAcc : INPUT(3,int32)
+refPosition : INPUT(4,int32)
+
+position : OUTPUT(1,int32)
+test : OUTPUT(2,int32)
+
+tmp : bit</hideVariables>
+            <hideCode>LOAD clk
+STORE S
+AND !tmp
+POP tmp
+
+CMPEQ DL[1]
+JMPF skipAction2
+
+# Configure maximum speed...
+PUSH DL[0]
+PUSH DL[0]
+LOAD maxVel
+STORE S
+CALL WL[hFF17]
+
+# Set maximum acceleration
+PUSH DL[0]
+PUSH DL[1]
+LOAD maxAcc
+STORE S
+CALL WL[hFF17]
+
+# Set maximum deceleration
+PUSH DL[0]
+PUSH DL[2]
+LOAD maxAcc
+STORE S
+CALL WL[hFF17]
+
+# Set reference position
+LOAD refPosition
+STORE Dh920
+
+LOAD test
+ADD DL[1]
+STORE test
+
+skipAction2:
+
+LOAD Dh900
+STORE position
+
+</hideCode>
+        </block>
+        <block ID="14" type="201" position="-380/390">
+            <Name>AND</Name>
+            <Show_negated_output>false</Show_negated_output>
+            <Inputs>2</Inputs>
+        </block>
+        <block ID="15" type="206" position="-520/490">
+            <Name>Compare (EQ)</Name>
+            <Show_negated_output>false</Show_negated_output>
+        </block>
+        <block ID="16" type="501" position="540/620">
+            <Name>Falling edge</Name>
+        </block>
+        <block ID="17" type="500" position="-270/380">
+            <Name>Rising edge</Name>
+        </block>
+        <block ID="18" type="600" position="-380/490">
+            <Name>On timer</Name>
+        </block>
+    </Blocks>
+    <Links>
+        <link ID="0">
+            <source type="port" blockID="3" portID="0"/>
+            <destination blockID="2" portID="0"/>
+            <anchors/>
+        </link>
+        <link ID="1">
+            <source type="port" blockID="1" portID="0"/>
+            <destination blockID="3" portID="0"/>
+            <anchors>
+                <anchor ID="0" position="140/380"/>
+            </anchors>
+        </link>
+        <link ID="2">
+            <source type="port" blockID="5" portID="0"/>
+            <destination blockID="1" portID="0"/>
+            <anchors/>
+        </link>
+        <link ID="3">
+            <source type="port" blockID="4" portID="0"/>
+            <destination blockID="5" portID="1"/>
+            <anchors/>
+        </link>
+        <link ID="4">
+            <source type="port" blockID="2" portID="0"/>
+            <destination blockID="6" portID="0"/>
+            <anchors/>
+        </link>
+        <link ID="5">
+            <source type="port" blockID="6" portID="0"/>
+            <destination blockID="4" portID="1"/>
+            <anchors>
+                <anchor ID="0" position="570/340"/>
+                <anchor ID="1" position="450/340"/>
+                <anchor ID="2" position="-130/340"/>
+            </anchors>
+        </link>
+        <link ID="6">
+            <source type="link" linkID="1" anchorID="0"/>
+            <destination blockID="7" portID="0"/>
+            <anchors>
+                <anchor ID="0" position="150/450"/>
+            </anchors>
+        </link>
+        <link ID="7">
+            <source type="port" blockID="8" portID="0"/>
+            <destination blockID="4" portID="0"/>
+            <anchors/>
+        </link>
+        <link ID="8">
+            <source type="port" blockID="7" portID="0"/>
+            <destination blockID="8" portID="0"/>
+            <anchors>
+                <anchor ID="0" position="320/620"/>
+                <anchor ID="1" position="290/680"/>
+                <anchor ID="2" position="100/680"/>
+                <anchor ID="3" position="-260/680"/>
+            </anchors>
+        </link>
+        <link ID="9">
+            <source type="link" linkID="8" anchorID="0"/>
+            <destination blockID="9" portID="0"/>
+            <anchors/>
+        </link>
+        <link ID="10">
+            <source type="link" linkID="6" anchorID="0"/>
+            <destination blockID="11" portID="0"/>
+            <anchors/>
+        </link>
+        <link ID="11">
+            <source type="port" blockID="11" portID="0"/>
+            <destination blockID="10" portID="0"/>
+            <anchors/>
+        </link>
+        <link ID="12">
+            <source type="port" blockID="12" portID="0"/>
+            <destination blockID="10" portID="3"/>
+            <anchors/>
+        </link>
+        <link ID="13">
+            <source type="port" blockID="7" portID="1"/>
+            <destination blockID="12" portID="1"/>
+            <anchors/>
+        </link>
+        <link ID="14">
+            <source type="port" blockID="13" portID="0"/>
+            <destination blockID="15" portID="0"/>
+            <anchors>
+                <anchor ID="0" position="740/760"/>
+                <anchor ID="1" position="150/760"/>
+                <anchor ID="2" position="-460/760"/>
+                <anchor ID="3" position="-600/530"/>
+            </anchors>
+        </link>
+        <link ID="15">
+            <source type="port" blockID="9" portID="0"/>
+            <destination blockID="16" portID="0"/>
+            <anchors/>
+        </link>
+        <link ID="16">
+            <source type="port" blockID="16" portID="0"/>
+            <destination blockID="13" portID="0"/>
+            <anchors/>
+        </link>
+        <link ID="17">
+            <source type="port" blockID="14" portID="0"/>
+            <destination blockID="17" portID="0"/>
+            <anchors/>
+        </link>
+        <link ID="18">
+            <source type="port" blockID="17" portID="0"/>
+            <destination blockID="5" portID="0"/>
+            <anchors>
+                <anchor ID="0" position="-120/380"/>
+            </anchors>
+        </link>
+        <link ID="19">
+            <source type="link" linkID="18" anchorID="0"/>
+            <destination blockID="7" portID="1"/>
+            <anchors>
+                <anchor ID="0" position="-50/550"/>
+            </anchors>
+        </link>
+        <link ID="20">
+            <source type="port" blockID="15" portID="0"/>
+            <destination blockID="18" portID="0"/>
+            <anchors/>
+        </link>
+        <link ID="21">
+            <source type="port" blockID="18" portID="0"/>
+            <destination blockID="14" portID="1"/>
+            <anchors/>
+        </link>
+    </Links>
+    <Constants>
+        <constant blockID="0" portID="0" value="1" valueF="0"/>
+        <constant blockID="1" portID="1" value="20000" valueF="0"/>
+        <constant blockID="2" portID="1" value="10000" valueF="0"/>
+        <constant blockID="7" portID="2" value="10" valueF="0"/>
+        <constant blockID="9" portID="1" value="30000" valueF="0"/>
+        <constant blockID="10" portID="1" value="100" valueF="0"/>
+        <constant blockID="10" portID="2" value="500" valueF="0"/>
+        <constant blockID="12" portID="0" value="2000" valueF="0"/>
+        <constant blockID="13" portID="1" value="4000" valueF="0"/>
+        <constant blockID="13" portID="2" value="2000" valueF="0"/>
+        <constant blockID="13" portID="3" value="0" valueF="0"/>
+        <constant blockID="14" portID="0" value="1" valueF="0"/>
+        <constant blockID="15" portID="1" value="0" valueF="0"/>
+        <constant blockID="18" portID="1" value="5000" valueF="0"/>
+    </Constants>
+    <Shared/>
+</PoBlocks>
