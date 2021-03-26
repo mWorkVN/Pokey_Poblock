@@ -2,21 +2,21 @@
 <PoBlocks>
     <Project>
         <Reset_core_on_startup>true</Reset_core_on_startup>
-        <Auto_start>true</Auto_start>
-        <Auto_reload_project>false</Auto_reload_project>
-        <Disable_division_by_zero_exception>false</Disable_division_by_zero_exception>
-        <Date></Date>
-        <Target_device>1</Target_device>
-        <Author>Pham An Nhan</Author>
-        <Cycle_time>50</Cycle_time>
         <Project_name>Save Encodet</Project_name>
-        <BlocksCount>6</BlocksCount>
-        <LinksCount>7</LinksCount>
+        <Auto_start>true</Auto_start>
+        <Date>26/03/2021</Date>
+        <Cycle_time>25</Cycle_time>
+        <Author>Pham An Nhan</Author>
+        <Target_device>1</Target_device>
+        <Disable_division_by_zero_exception>false</Disable_division_by_zero_exception>
+        <Auto_reload_project>false</Auto_reload_project>
+        <BlocksCount>5</BlocksCount>
+        <LinksCount>6</LinksCount>
     </Project>
     <Blocks>
-        <block ID="0" type="1100" position="640/360">
+        <block ID="0" type="1100" position="610/270">
             <Name>UpdateDataTobatttery</Name>
-            <hideInputs>4</hideInputs>
+            <hideInputs>5</hideInputs>
             <hideOutputs>3</hideOutputs>
             <hideMemory_bits>1</hideMemory_bits>
             <hideMemory_int8>0</hideMemory_int8>
@@ -26,6 +26,7 @@
 rstEn1 : INPUT(2,bit)
 rstEn2 : INPUT(3,bit)
 rstEn3 : INPUT(4,bit)
+Value: INPUT(5,int32)
 Out1: OUTPUT(1,int32)
 Out2: OUTPUT(2,int32)
 Out3: OUTPUT(3,int32)
@@ -41,7 +42,8 @@ CMPEQ DL[1]
 JMPF cancelStart
 
 # begin
-
+LOAD DL[0]
+STORE Value
 # Copy encoder 1
 LOAD DhA00
 STORE Dh200
@@ -81,43 +83,25 @@ JMPF resetblock3
 JMP endprogram
 
 resetblock1:
-LOAD DL[0]
+LOAD Value
 STORE Dh200
 JMP endprogram
 resetblock2:
-LOAD DL[0]
+LOAD Value
 STORE Dh204
 JMP endprogram
 resetblock3:
-LOAD DL[0]
+LOAD Value
 STORE Dh208
 endprogram:</hideCode>
         </block>
-        <block ID="1" type="0" position="50/240">
+        <block ID="1" type="0" position="110/240">
             <Name>RST Encoder 1</Name>
-            <Pin_ID>23</Pin_ID>
+            <Pin_ID>41</Pin_ID>
             <Init_function>true</Init_function>
             <Inverted>false</Inverted>
         </block>
-        <block ID="2" type="0" position="60/290">
-            <Name>RST Encoder 2</Name>
-            <Pin_ID>24</Pin_ID>
-            <Init_function>true</Init_function>
-            <Inverted>false</Inverted>
-        </block>
-        <block ID="3" type="0" position="60/340">
-            <Name>RST Encoder 3</Name>
-            <Pin_ID>25</Pin_ID>
-            <Init_function>true</Init_function>
-            <Inverted>false</Inverted>
-        </block>
-        <block ID="4" type="111" position="40/400">
-            <Name>Shared 32-bit</Name>
-            <Default_value>0</Default_value>
-            <Retain_on_reset>false</Retain_on_reset>
-            <Initial_value>0</Initial_value>
-        </block>
-        <block ID="5" type="1100" position="360/290">
+        <block ID="2" type="1100" position="350/290">
             <Name>SetZeroOut</Name>
             <hideInputs>4</hideInputs>
             <hideOutputs>3</hideOutputs>
@@ -142,13 +126,13 @@ STORE out1
 
 LOAD in2
 CMPNEQ DL[300]
-LOAD  rstBtnY
+LOAD  rstBtnX
 AND bSTATUS.0
 STORE out2
 
 LOAD in2
 CMPNEQ DL[450]
-LOAD  rstBtnZ
+LOAD  rstBtnX
 AND bSTATUS.0
 STORE out3
 #LOAD in2
@@ -158,48 +142,60 @@ STORE out3
 #STORE out2
 endprogram1:</hideCode>
         </block>
+        <block ID="3" type="111" position="110/290">
+            <Name>rstSignal</Name>
+            <Default_value>0</Default_value>
+            <Retain_on_reset>false</Retain_on_reset>
+            <Initial_value>0</Initial_value>
+        </block>
+        <block ID="4" type="111" position="110/390">
+            <Name>ValueRST</Name>
+            <Default_value>0</Default_value>
+            <Retain_on_reset>false</Retain_on_reset>
+            <Initial_value>0</Initial_value>
+        </block>
     </Blocks>
     <Links>
         <link ID="0">
             <source type="port" blockID="1" portID="0"/>
-            <destination blockID="5" portID="0"/>
+            <destination blockID="2" portID="0"/>
             <anchors/>
         </link>
         <link ID="1">
-            <source type="port" blockID="5" portID="0"/>
+            <source type="port" blockID="2" portID="0"/>
             <destination blockID="0" portID="1"/>
             <anchors/>
         </link>
         <link ID="2">
-            <source type="port" blockID="2" portID="0"/>
-            <destination blockID="5" portID="1"/>
-            <anchors/>
-        </link>
-        <link ID="3">
-            <source type="port" blockID="3" portID="0"/>
-            <destination blockID="5" portID="2"/>
-            <anchors/>
-        </link>
-        <link ID="4">
-            <source type="port" blockID="4" portID="0"/>
-            <destination blockID="5" portID="3"/>
-            <anchors/>
-        </link>
-        <link ID="5">
-            <source type="port" blockID="5" portID="1"/>
+            <source type="port" blockID="2" portID="1"/>
             <destination blockID="0" portID="2"/>
             <anchors/>
         </link>
-        <link ID="6">
-            <source type="port" blockID="5" portID="2"/>
+        <link ID="3">
+            <source type="port" blockID="2" portID="2"/>
             <destination blockID="0" portID="3"/>
             <anchors/>
+        </link>
+        <link ID="4">
+            <source type="port" blockID="3" portID="0"/>
+            <destination blockID="2" portID="3"/>
+            <anchors/>
+        </link>
+        <link ID="5">
+            <source type="port" blockID="4" portID="0"/>
+            <destination blockID="0" portID="4"/>
+            <anchors>
+                <anchor ID="0" position="460/350"/>
+            </anchors>
         </link>
     </Links>
     <Constants>
         <constant blockID="0" portID="0" value="1" valueF="0"/>
+        <constant blockID="2" portID="1" value="0" valueF="0"/>
+        <constant blockID="2" portID="2" value="0" valueF="0"/>
     </Constants>
     <Shared>
-        <slot id="25" rights="3" blockID="4" portID="0"/>
+        <slot id="21" rights="3" blockID="3" portID="0"/>
+        <slot id="22" rights="3" blockID="4" portID="0"/>
     </Shared>
 </PoBlocks>
