@@ -1,0 +1,16 @@
+
+If IsActive(OemTrig1) Then
+	Message "Spindle Jog - CW"
+	DoSpinCW()
+	While (IsActive(OemTrig1))
+	 Sleep(50)
+	Wend
+ElseIf IsActive(OemTrig2) Then
+	Message "Spindle Jog - CCW"
+	DoSpinCCW()
+	While (IsActive(OemTrig2))
+	 Sleep(50)
+	Wend
+End If 
+DoSpinStop()
+Message "Spindle Jog - STOP"

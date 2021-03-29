@@ -1,0 +1,21 @@
+Dim x As Double
+Dim y As Double
+Dim z As Double
+Dim i As Double
+numberZero=0.0
+i=0.0
+x = GetOEMDRO(29)
+y = GetOEMDRO(30)
+z = GetOEMDRO(31)
+Message "x la " & x
+While ((x - numberZero < 0.00009)And(y - numberZero < 0.00009)And(z - numberZero < 0.00009))
+	x = GetOEMDRO(29)
+	y = GetOEMDRO(30)
+	z = GetOEMDRO(31)
+	i=i+1
+	Message "Error Z-axis (Motor height) drive fault" & i
+    sleep (1000)         
+Wend 
+SetOEMDRO(800,x)
+SetOEMDRO(801,y)
+SetOEMDRO(802,z)

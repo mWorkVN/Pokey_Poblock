@@ -1,0 +1,39 @@
+Dim x As Double
+Dim y As Double
+Dim z As Double
+Dim xPos As Double
+Dim yPos As Double
+Dim zPos As Double
+Dim HsX as Double
+Dim HsY as Double
+Dim HsZ as Double
+Dim xE As Double
+HsX= GetUserDRO(1003)
+HsY= GetUserDRO(1004)
+HsZ= GetUserDRO(1005)
+If HsX = 0 Then
+  Message "HsX = 0"
+  HsX = 1
+End If
+If HsY = 0 Then
+  Message "HsY = 0"
+  HsY = 1
+End If
+If HsZ = 0 Then
+  Message "HsZ = 0"
+  HsZ = 1
+End If
+x = GetUserDRO(1000)
+xPos = x/HsX
+y = GetUserDRO(1001)
+yPos = y/HsY
+z = GetUserDRO(1002)
+zPos = z/HsZ
+'SetOEMDRO(140,xPos)
+'SetOEMDRO(141,yPos)
+'SetOEMDRO(142,zPos)
+SetOEMDRO(29,xPos)
+SetOEMDRO(30,yPos)
+SetOEMDRO(31,zPos)
+'Message HsX & " - " & HsY
+sleep (100)         

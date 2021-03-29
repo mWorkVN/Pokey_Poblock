@@ -1,0 +1,23 @@
+'================================================= =
+' Check encoder and comapre data to pos
+'================================================= =
+Dim x As Double
+Dim y As Double
+Dim z As Double
+Dim xPos As Double
+Dim yPos As Double
+Dim zPos As Double
+x = GetOEMDRO(1000)
+xPos = x/100.58
+y = GetOEMDRO(1001)
+yPos = y/100.58
+z = GetOEMDRO(1002)
+zPos = z/100.58
+SetOEMDRO(29,xPos)
+SetOEMDRO(30,yPos)
+SetOEMDRO(31,zPos)
+'================================================= =
+' Check button reset encoder
+'================================================= =
+SetOEMDRO(1050,xPos)
+Sleep 200

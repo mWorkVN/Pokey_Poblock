@@ -1,0 +1,66 @@
+Sub Main()
+ Begin Dialog GroupSample 31,32,120,96,"Axis Selection"
+	OKButton 38,75,40,14
+	GroupBox 12,8,96,62,"Pick Axis to Calibrate",.GroupBox1
+	OptionGroup .OptionGroup1
+	OptionButton 20,24,40,8,"X Axis",.OptionButton1
+	OptionButton 20,40,40,8,"Y Axis",.OptionButton2
+	OptionButton 20,56,40,8,"Z Axis",.OptionButton3
+End Dialog
+
+
+
+Dim Dlg1 As GroupSample
+Button = Dialog (Dlg1)
+ If Button = 0 Then
+    Exit Sub
+ End If	
+AxisNum = Dlg1.OptionGroup1
+
+Select Case AxisNum
+      Case 0 'HSS
+		Axis = "StepsPerAxisX"
+		DROAxis = 1003
+		DROEncodervalue = 1000
+		Axis_Letter = "X"
+      Case 1 'HSStin
+        Axis = "StepsPerAxisY"
+		DROAxis = 1004
+		DROEncodervalue = 1001
+		Axis_Letter =" Y"
+      Case 2 'Carbide
+		Axis = "StepsPerAxisZ"
+		DROEncodervalue = 1002
+		DROAxis = 1005
+		Axis_Letter = "Z"
+End Select
+
+Encoderbegin = GetUserDRO(DROEncodervalue)
+Com_Move = Question ("How far would you like to Move the " & Axis_Letter & " Axis?")
+
+If COM_Move = 0 Then
+  MsgBox "Can't have a Move of Zero, Axis Calc aborted."
+  Exit Sub
+End If
+Code "G0 G91 " & Axis_Letter & Com_Move
+ While Ismoving()
+ Wend
+Code("G90")
+Code "G4 P0.5"
+Encoderend = GetUserDRO(DROEncodervalue)
+Old_PPR = GetParam(Axis)
+EncoderMove = Abs(Encoderend - Encoderbegin)
+New_PPR = Abs(EncoderMove / Com_Move)
+Response =  MsgBox ( Axis_Letter & " Axis Will be Set to " & New_PPR & " Steps per Unit. Would you like to Accept it??", 4 , "Set Steps Per Unit") 
+If Response = 6 Then   ' User chose Yes.
+   SetUserDRO(1003, New_PPR)
+   'MsgBox (Axis_Letter & " Axis Has Been Set")
+'Else   ' User chose No.
+   'MsgBox (Axis_Letter & " Axis Has NOT Been Set")
+End If
+
+End Sub
+Main
+
+
+

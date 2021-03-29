@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PoBlocks>
     <Project>
-        <Reset_core_on_startup>true</Reset_core_on_startup>
-        <Project_name>Save Encodet</Project_name>
         <Auto_start>true</Auto_start>
-        <Date>26/03/2021</Date>
-        <Cycle_time>25</Cycle_time>
-        <Author>Pham An Nhan</Author>
-        <Target_device>1</Target_device>
-        <Disable_division_by_zero_exception>false</Disable_division_by_zero_exception>
         <Auto_reload_project>false</Auto_reload_project>
+        <Date>26/03/2021</Date>
+        <Disable_division_by_zero_exception>false</Disable_division_by_zero_exception>
+        <Author>Pham An Nhan</Author>
+        <Project_name>Save Encodet</Project_name>
+        <Reset_core_on_startup>true</Reset_core_on_startup>
+        <Target_device>1</Target_device>
+        <Cycle_time>25</Cycle_time>
         <BlocksCount>5</BlocksCount>
         <LinksCount>6</LinksCount>
     </Project>
     <Blocks>
-        <block ID="0" type="1100" position="610/270">
+        <block ID="0" type="1100" position="800/300">
             <Name>UpdateDataTobatttery</Name>
             <hideInputs>5</hideInputs>
             <hideOutputs>3</hideOutputs>
@@ -45,27 +45,27 @@ JMPF cancelStart
 LOAD DL[0]
 STORE Value
 # Copy encoder 1
-LOAD DhA00
+LOAD DhA08
 STORE Dh200
 # Copy encoder 2
-LOAD DhA04
+LOAD DhA0C
 STORE Dh204
 # Copy encoder 3
-LOAD DhA08
+LOAD DhA10
 STORE Dh208
 
 cancelStart:
 #save encoder 1
 LOAD Dh200
-STORE DhA00
+STORE DhA08
 STORE Out1
 #save encoder 2
 LOAD Dh204
-STORE DhA04
+STORE DhA0C
 STORE Out2
 #save encoder 3
 LOAD Dh208
-STORE DhA08
+STORE DhA10
 STORE Out3
 #button reset 1
 LOAD DL[0]
@@ -164,7 +164,9 @@ endprogram1:</hideCode>
         <link ID="1">
             <source type="port" blockID="2" portID="0"/>
             <destination blockID="0" portID="1"/>
-            <anchors/>
+            <anchors>
+                <anchor ID="0" position="420/260"/>
+            </anchors>
         </link>
         <link ID="2">
             <source type="port" blockID="2" portID="1"/>
