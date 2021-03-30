@@ -2,13 +2,13 @@
 <PoBlocks>
     <Project>
         <Auto_start>true</Auto_start>
-        <Auto_reload_project>false</Auto_reload_project>
         <Date>26/03/2021</Date>
-        <Disable_division_by_zero_exception>false</Disable_division_by_zero_exception>
-        <Author>Pham An Nhan</Author>
-        <Project_name>Save Encodet</Project_name>
         <Reset_core_on_startup>true</Reset_core_on_startup>
+        <Author>Pham An Nhan</Author>
         <Target_device>1</Target_device>
+        <Disable_division_by_zero_exception>false</Disable_division_by_zero_exception>
+        <Project_name>Save Encodet</Project_name>
+        <Auto_reload_project>false</Auto_reload_project>
         <Cycle_time>25</Cycle_time>
         <BlocksCount>5</BlocksCount>
         <LinksCount>6</LinksCount>
@@ -45,27 +45,27 @@ JMPF cancelStart
 LOAD DL[0]
 STORE Value
 # Copy encoder 1
-LOAD DhA08
+LOAD DhA00
 STORE Dh200
 # Copy encoder 2
-LOAD DhA0C
+LOAD DhA04
 STORE Dh204
 # Copy encoder 3
-LOAD DhA10
+LOAD DhA08
 STORE Dh208
 
 cancelStart:
 #save encoder 1
 LOAD Dh200
-STORE DhA08
+STORE DhA00
 STORE Out1
 #save encoder 2
 LOAD Dh204
-STORE DhA0C
+STORE DhA04
 STORE Out2
 #save encoder 3
 LOAD Dh208
-STORE DhA10
+STORE DhA08
 STORE Out3
 #button reset 1
 LOAD DL[0]
