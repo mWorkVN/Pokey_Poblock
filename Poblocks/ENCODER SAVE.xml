@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PoBlocks>
     <Project>
-        <Auto_start>true</Auto_start>
+        <Auto_reload_project>false</Auto_reload_project>
+        <Cycle_time>150</Cycle_time>
+        <Project_name>Save Encodet</Project_name>
+        <Disable_division_by_zero_exception>false</Disable_division_by_zero_exception>
         <Date>26/03/2021</Date>
+        <Target_device>1</Target_device>
         <Reset_core_on_startup>true</Reset_core_on_startup>
         <Author>Pham An Nhan</Author>
-        <Target_device>1</Target_device>
-        <Disable_division_by_zero_exception>false</Disable_division_by_zero_exception>
-        <Project_name>Save Encodet</Project_name>
-        <Auto_reload_project>false</Auto_reload_project>
-        <Cycle_time>25</Cycle_time>
+        <Auto_start>true</Auto_start>
         <BlocksCount>5</BlocksCount>
         <LinksCount>6</LinksCount>
     </Project>
@@ -77,7 +77,7 @@ CMPLT rstEn2
 JMPF resetblock2
 #button reset 3
 LOAD DL[0]
-CMPLT rstEn2
+CMPLT rstEn3
 JMPF resetblock3
 #jump to end
 JMP endprogram
