@@ -6,7 +6,7 @@
 ![B1](/pic/1.png)
 ![B2](/pic/2.png)
 
-And Disable IDLE power save trong advanced setting
+- And Disable IDLE power save trong advanced setting
 
 ![B2](/pic/3.png)
 
