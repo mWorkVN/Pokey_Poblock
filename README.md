@@ -9,3 +9,7 @@
 And Disable IDLE power save trong advanced setting
 
 ![B2](/pic/3.png)
+
+- Chỉnh speed cố định
+
+![B3](/pic/speed.png)
