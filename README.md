@@ -13,3 +13,5 @@ And Disable IDLE power save trong advanced setting
 - Chỉnh speed cố định
 
 ![B3](/pic/speed.png)
+
+- Disable tất cả các thông số mạng khác
