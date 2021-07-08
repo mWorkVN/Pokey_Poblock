@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PoBlocks>
     <Project>
-        <Disable_division_by_zero_exception>false</Disable_division_by_zero_exception>
         <Auto_start>true</Auto_start>
+        <Author>Pham An Nhan</Author>
+        <Disable_division_by_zero_exception>false</Disable_division_by_zero_exception>
         <Target_device>1</Target_device>
+        <Auto_reload_project>false</Auto_reload_project>
         <Cycle_time>50</Cycle_time>
-        <Reset_core_on_startup>true</Reset_core_on_startup>
         <Project_name>Save Encodet</Project_name>
         <Date>26/03/2021</Date>
-        <Auto_reload_project>false</Auto_reload_project>
-        <Author>Pham An Nhan</Author>
+        <Reset_core_on_startup>true</Reset_core_on_startup>
         <BlocksCount>5</BlocksCount>
         <LinksCount>6</LinksCount>
     </Project>
@@ -193,8 +193,8 @@ endprogram1:</hideCode>
     </Links>
     <Constants>
         <constant blockID="0" portID="0" value="1" valueF="0"/>
-        <constant blockID="2" portID="1" value="0" valueF="0"/>
-        <constant blockID="2" portID="2" value="0" valueF="0"/>
+        <constant blockID="2" portID="1" value="1" valueF="0"/>
+        <constant blockID="2" portID="2" value="1" valueF="0"/>
     </Constants>
     <Shared>
         <slot id="21" rights="3" blockID="3" portID="0"/>
